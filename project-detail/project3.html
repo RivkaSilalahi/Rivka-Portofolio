@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Mora Toba</title>
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .project-detail {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Header Styles */
+    .project-header {
+      margin-bottom: 25px;
+    }
+    
+    .project-meta p {
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+      color: #666;
+    }
+    
+    .project-meta i {
+      width: 20px;
+      text-align: center;
+      margin-right: 8px;
+      color: #7a70e0;
+    }
+    
+    /* Image Grid Styles */
+    .project-images {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin: 25px 0;
+    }
+    
+    .project-images img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #eee;
+    }
+    
+    /* Content Styles */
+    .project-content {
+      margin: 25px 0;
+      line-height: 1.6;
+      color: #555;
+      font-size: 0.95rem;
+    }
+    
+    .features-list {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+    
+    .features-list li {
+      margin-bottom: 8px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+    
+    /* Button Styles */
+    .btn-custom {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      padding: 8px 15px;
+    }
+    
+    .back-btn {
+    font-size: 0.95rem;
+    padding: 0px 6px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    margin-bottom: 20px;
+    } 
+    
+    /* Desktop Styles */
+    @media (min-width: 768px) {
+      .project-detail {
+        padding: 60px 40px;
+      }
+      
+      .project-images {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      
+      .project-images img {
+        max-height: 180px;
+      }
+      
+      .project-content, 
+      .features-list li {
+        font-size: 1rem;
+      }
+      
+      .btn-custom,
+      .back-btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+    }
+      /* Image Modal Styles */
+  .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    animation: zoom 0.3s ease-in-out;
+  }
+
+  .modal-image {
+    display: block;
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .close-button {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .close-button:hover {
+    color: #bbb;
+  }
+
+  @keyframes zoom {
+    from {transform: scale(0.8); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+  }
+
+  /* Make project images indicate they're clickable */
+  .project-images img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+  }
+
+  .project-images img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  /* Responsive adjustments */
+  @media only screen and (max-width: 700px) {
+    .modal-content {
+      max-width: 100%;
+    }
+    
+    .close-button {
+      top: -35px;
+      right: 0;
+      font-size: 30px;
+    }
+  }
+  .prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.prev-button {
+  left: -50px;
+}
+
+.next-button {
+  right: -50px;
+}
+
+@media only screen and (max-width: 700px) {
+  .prev-button, .next-button {
+    font-size: 30px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .prev-button {
+    left: 5px;
+  }
+
+  .next-button {
+    right: 5px;
+  }
+}
+
+  </style>
+  
+</head>
+<body>
+  <div class="container project-detail">
+    <a href="../index.html" class="btn btn-primary back-btn shadow-sm d-inline-flex align-items-center">
+      <i class="fas fa-arrow-left me-2"></i> Back to Portfolio
+    </a>    
+
+    <div class="project-header">
+      <h2 class="mb-3" style="font-size: 1.5rem;">Pengembangan Situs Web Food Mora Toba</h2>
+      <div class="project-meta">
+        <p><i class="fas fa-calendar-alt"></i> Jan 2023 - Jun 2023</p>
+        <p><i class="fas fa-user-tag"></i> Product Designer & Data Analyst</p>
+      </div>
+    </div>
+
+    <div class="project-images">
+      <img src="images/FMT 1.png" alt="FMT Beranda">
+      <img src="images/FMT 2.png" alt="FMT Produk">
+      <img src="images/FMT 3.png" alt="FMT Tentang">
+    </div>
+
+    <div class="project-content">
+      <p>
+        Developing a product information system website for Food Mora Toba that displays local food products in an informative and attractive manner. This project is a collaboration between students of the Del Institute of Technology Group 05 Final Project 1 and the owner of Food Mora Toba
+      </p>
+      <p>
+        This website is designed not only as an information medium, but also as a means of digital promotion to support the marketing of local MSME products. Users can access complete information about Food Mora Toba, including a list of products, contacts, addresses, and other information simply by visiting the website address. To ensure that information is always up to date, this system also provides an admin panel that allows managers to update content regularly.
+      </p>
+      <p>
+        In its development, this project includes the stages of needs analysis, user interface design (UI/UX), and implementation using modern web technology. It is hoped that this site can increase the visibility and competitiveness of Food Mora Toba in the digital era.
+      </p>
+      
+
+
+    <div class="project-links mt-4">
+      <a href="https://www.figma.com/design/WbDGcc6lLApET5oEdaLQrq/PROYEK-AKHIR-1?node-id=0-1&p=f&t=DUAqdZMajdnYiABI-0" 
+         target="_blank" 
+         class="btn btn-outline-primary btn-custom">
+        <i class="fab fa-figma"></i> Figma Design
+      </a>
+    </div>
+  </div>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create modal elements
+    const modal = document.createElement('div');
+    modal.className = 'image-modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <img class="modal-image" alt="Enlarged project image">
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Get all project images
+    const projectImages = document.querySelectorAll('.project-images img');
+    const modalImage = modal.querySelector('.modal-image');
+    const closeButton = modal.querySelector('.close-button');
+
+    // Add click event to project images
+    projectImages.forEach(img => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent default action
+        modalImage.src = this.src;
+        modalImage.alt = this.alt;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+      });
+    });
+
+    // Close modal when clicking the close button
+    closeButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; // Re-enable scrolling
+    });
+
+    // Close modal when clicking outside the image
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+      }
+    });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.createElement('div');
+    modal.className = 'image-modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <img class="modal-image" alt="Enlarged project image">
+        <span class="prev-button">&#10094;</span>
+        <span class="next-button">&#10095;</span>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const images = Array.from(document.querySelectorAll('.project-images img'));
+    const modalImage = modal.querySelector('.modal-image');
+    const closeButton = modal.querySelector('.close-button');
+    const prevButton = modal.querySelector('.prev-button');
+    const nextButton = modal.querySelector('.next-button');
+
+    let currentIndex = 0;
+
+    function showImage(index) {
+      if (index >= 0 && index < images.length) {
+        currentIndex = index;
+        modalImage.src = images[index].src;
+        modalImage.alt = images[index].alt;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    images.forEach((img, i) => {
+      img.addEventListener('click', function () {
+        showImage(i);
+      });
+    });
+
+    closeButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    nextButton.addEventListener('click', () => {
+      const nextIndex = (currentIndex + 1) % images.length;
+      showImage(nextIndex);
+    });
+
+    prevButton.addEventListener('click', () => {
+      const prevIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(prevIndex);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (modal.style.display === 'flex') {
+        if (e.key === 'Escape') {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowRight') {
+          nextButton.click();
+        } else if (e.key === 'ArrowLeft') {
+          prevButton.click();
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
